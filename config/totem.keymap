@@ -70,47 +70,56 @@
         };
     };
 
-    /* Hold Space (NAV) + Backspace (NUM) together -> ADJ (Bluetooth, reset) */
+    /* Hold Space (NAV) + Enter (SYM) together -> ADJ (Bluetooth, reset) */
     conditional_layers {
         compatible = "zmk,conditional-layers";
         adjust {
-            if-layers = <NAV NUM>;
+            if-layers = <NAV SYM>;
             then-layer = <ADJ>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
-
-        /* ┌─────┬─────┬─────┬─────┬─────┐   ┌─────┬─────┬─────┬─────┬─────┐
-           │  Q  │  W  │  F  │  P  │  B  │   │  J  │  L  │  U  │  Y  │  ;  │
-           │ A◆  │ R⎇  │ S⌃  │ T⇧  │  G  │   │  M  │ N⇧  │ E⌃  │ I⎇  │ O◆  │
-     ┌─────┤  Z  │  X  │  C  │  D  │  V  │   │  K  │  H  │  ,  │  .  │  /  ├─────┐
-     │CAPSW└─────┴─────┼─────┼─────┼─────┤   ├─────┼─────┼─────┼─────┴─────┘  '  │
-     └─────┘           │Esc  │Space│ Tab │   │Enter│Bspc │ Del │           └─────┘
-                       │AltGr│ NAV │     │   │ SYM │ NUM │AltGr│                     */
         base_layer {
             display-name = "Base";
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+// BASE Colemak-DH
+//              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
+//              │  Q           │  W           │  F           │  P           │  B           │   │  J           │  L           │  U           │  Y           │  ;           |
+//              │ A◆           │ R⎇          │ S⌃           │ T⇧           │  G           │   │  M           │ N⇧           │ E⌃           │ I⎇          │  O◆          │
+//┌─────────────┤  Z           │  X           │  C           │  D           │  V           │   │  K           │  H           │  ,           │  .           │  /           ├──────────────┐
+//│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
+//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
+//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
-            &kp Q          &kp W           &kp F            &kp P            &kp B      &kp J  &kp L            &kp U            &kp Y           &kp SEMI
-            &hml LGUI A    &hml LALT R     &hml LCTRL S     &hml LSHFT T     &kp G      &kp M  &hmr RSHFT N     &hmr RCTRL E     &hmr LALT I     &hmr RGUI O
-&caps_word  &kp Z          &kp X           &kp C            &kp D            &kp V      &kp K  &kp H            &kp COMMA        &kp DOT         &kp FSLH     &kp SQT
-                                           &mt RALT ESC     &lt NAV SPACE    &kp TAB    &lt SYM ENTER    &lt NUM BSPC     &mt RALT DEL
+//|             |              |              |              |              |              |   |              |              |              |              |              |              |
+                &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &kp SEMI
+                &hml LGUI A    &hml LALT R    &hml LCTRL S   &hml LSHFT T   &kp G              &kp M          &hmr RSHFT N   &hmr RCTRL E   &hmr LALT I    &hmr RGUI O
+  &caps_word    &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &kp COMMA      &kp DOT        &kp FSLH        &kp SQT
+                                              &lt NUM ESC    &mt RALT TAB   &lt NAV SPACE      &lt SYM ENTER  &kp BSPC       &kp DEL
             >;
         };
 
-        /* NAV (hold Space): arrows on right home row, mods + clipboard on left
-           ┌─────┬─────┬─────┬─────┬─────┐   ┌─────┬─────┬─────┬─────┬─────┐
-           │Prev │Vol- │Vol+ │Next │Play │   │     │Home │PgDn │PgUp │ End │
-           │ GUI │ Alt │Ctrl │Shift│     │   │     │  ←  │  ↓  │  ↑  │  →  │
-     ┌─────┤Undo │ Cut │Copy │Paste│Redo │   │     │     │     │     │     ├─────┐ */
         nav_layer {
             display-name = "Nav";
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+// NAV (hold Space): arrows on right home row, mods + clipboard on left
+//              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
+//              │ Prev         │ Vol-         │ Vol+         │ Next         │ Play         │   │              │              │              │              │              |
+//              │ GUI          │ Alt          │ Ctrl         │ Shift        │              │   │              │ ←            │ ↓            │ ↑            │ →            │
+//┌─────────────┤ Undo         │ Cut          │ Copy         │ Paste        │ Redo         │   │              │ Home         │ PgDn         │ PgUp         │ End          ├──────────────┐
+//│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
+//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
+//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
-            &kp C_PREV     &kp C_VOL_DN    &kp C_VOL_UP     &kp C_NEXT       &kp C_PP   &none  &kp HOME         &kp PG_DN        &kp PG_UP       &kp END
-            &kp LGUI       &kp LALT        &kp LCTRL        &kp LSHFT        &none      &none  &kp LEFT         &kp DOWN         &kp UP          &kp RIGHT
-&trans      &kp LC(Z)      &kp LC(X)       &kp LC(C)        &kp LC(V)        &kp LC(Y)  &none  &none            &none            &none           &none        &trans
-                                           &trans           &trans           &trans     &trans           &trans           &trans
+//|             |              |              |              |              |              |   |              |              |              |              |              |              |
+                &kp C_PREV     &kp C_VOL_DN   &kp C_VOL_UP   &kp C_NEXT     &kp C_PP           &none          &none          &none          &none          &none
+                &kp LGUI       &kp LALT       &kp LCTRL      &kp LSHFT      &none              &none          &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT
+  &trans        &kp LC(Z)      &kp LC(X)      &kp LC(C)      &kp LC(V)      &kp LC(Y)          &none          &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                                              &trans         &trans         &trans             &trans         &trans         &trans
             >;
         };
 
@@ -145,7 +154,7 @@
             >;
         };
 
-        /* ADJ (hold Space + Backspace): Bluetooth profiles, USB/BLE, bootloader */
+        /* ADJ (hold Space + Enter): Bluetooth profiles, USB/BLE, bootloader */
         adj_layer {
             display-name = "Adj";
             bindings = <

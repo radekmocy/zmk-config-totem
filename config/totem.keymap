@@ -97,6 +97,12 @@
             bindings = <&kp DOT>, <&kp COLON>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+        fslh_bslh: slash_backslash {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp FSLH>, <&kp BSLH>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
         qmark_excl: question_exclamation {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -137,7 +143,7 @@
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &FSLH_BSLH
+                &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &fslh_bslh
                 &hml LGUI A    &hml LALT R    &hml LCTRL S   &hml LSHFT T   &kp G              &kp M          &hmr RSHFT N   &hmr RCTRL E   &hmr LALT I    &hmr RGUI O
   &caps_word    &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &comma_semi    &dot_colon     &qmark_excl    &kp SQT
                                               &lt NUM ESC    &mt RALT TAB   &lt NAV SPACE      &lt SYM ENTER  &kp BSPC       &kp DEL

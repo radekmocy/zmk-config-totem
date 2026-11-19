@@ -261,7 +261,7 @@
 // OS mode is not remembered after power-off — it always starts in Win/Linux
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │ BT 0         │ BT 1         │ BT 2         │ BT 3         │ BT 4         │   │              │              │              │              │              │
-//              │ BT Clear     │ USB          │ BLE          │ Studio ulck  │              │   │ Mac          │ Win/Linux    │              │              │              │
+//              │ BT Clear     │ USB          │ BLE          │ Studio ulck  │              │   │              │ Mac          │ Win/Linux    │              │              │
 //┌─────────────┤ Bootloader   │ Reset        │              │              │              │   │              │              │              │ Reset        │ Bootloader   ├──────────────┐
 //│             └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘              │
 //└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
@@ -270,7 +270,7 @@
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
                 &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4       &none          &none          &none          &none          &none
-                &bt BT_CLR     &out OUT_USB   &out OUT_BLE   &studio_unlock &none              &to MAC        &to BASE       &none          &none          &none
+                &bt BT_CLR     &out OUT_USB   &out OUT_BLE   &studio_unlock &none              &none          &to MAC        &to BASE       &none          &none
   &none         &bootloader    &sys_reset     &none          &none          &none              &none          &none          &none          &sys_reset     &bootloader    &none
                                               &trans         &trans         &trans             &trans         &trans         &trans
             >;

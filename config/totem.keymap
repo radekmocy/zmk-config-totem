@@ -12,7 +12,7 @@
  * ── Polish letters: hold AltGr (right middle thumb) + letter, add Shift for capitals ──────
  *     ą=A  ć=C  ę=E  ł=L  ń=N  ó=O  ś=S  ż=Z  ź=X
  *
- * ── OS mode (hold Esc + Sticky⇧ → ADJ) ────────────────────────────────────────────
+ * ── OS mode (hold Esc + Tab → ADJ) ────────────────────────────────────────────────
  *   Win/Linux (default) : home row  GUI    Alt    Ctrl  ⇧Shift
  *   Mac                 : home row  ⌃Ctrl  ⎇Alt  ⌘Cmd  ⇧Shift  + NAV sends Cmd-shortcuts
  *   → "middle finger + C" copies on every OS, "NAV + middle + arrow" jumps a word, etc.
@@ -145,9 +145,9 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        /* Hold Esc (SYM) + Sticky Shift (NAV) together -> ADJ (Bluetooth, OS mode, reset) */
+        /* Hold Esc (SYM) + Tab (NUM) together -> ADJ (Bluetooth, OS mode, reset) */
         adjust {
-            if-layers = <NAV SYM>;
+            if-layers = <SYM NUM>;
             then-layer = <ADJ>;
         };
         /* Mac mode + NAV -> Mac versions of the NAV shortcuts */
@@ -307,7 +307,7 @@
         adj_layer {
             display-name = "Adj";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// ADJ (hold Esc + Sticky Shift thumb): Bluetooth, USB/BLE, OS mode, bootloader
+// ADJ (hold Esc + Tab): Bluetooth, USB/BLE, OS mode, bootloader
 // OS mode is not remembered after power-off — it always starts in Win/Linux
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │ BT 0         │ BT 1         │ BT 2         │ BT 3         │ BT 4         │   │              │              │              │              │              │

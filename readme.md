@@ -49,7 +49,7 @@ The upstream keymap (Colemak + NAV/SYM/ADJUST + TVPaint layers) was replaced wit
 | **MAC NAV** | Mac mode + hold Sticky Shift | the NAV shortcuts in their macOS (Cmd) versions |
 | **SYM** | hold Esc (left outer thumb) | all coding symbols, brackets mirrored on the home row (open left / close right) |
 | **NUM** | hold Tab | F1–F12, Esc and Delete on the left hand, numpad on the right hand (0 on the right thumb) |
-| **ADJ** | hold Esc + Sticky Shift | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |
+| **ADJ** | hold Esc + Tab | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |
 
 Other details:
 - **Thumbs**: Esc/SYM, Tab/NUM, Sticky Shift/NAV | Space, AltGr, Backspace (Shift + Backspace = Delete).

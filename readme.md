@@ -43,20 +43,22 @@ The upstream keymap (Colemak + NAV/SYM/ADJUST + TVPaint layers) was replaced wit
 
 | Layer | How to reach | Contents |
 |---|---|---|
-| **BASE** | default | Colemak-DH with home-row mods (GUI / Alt / Ctrl / Shift), Caps Word on the outer key |
+| **BASE** | default | Colemak-DH with home-row mods (GUI / Alt / Ctrl / Shift; O is a plain letter), Caps Word on the outer key |
 | **MAC** | ADJ → *Mac* | overlay on BASE: home-row mods become Ctrl / Opt / Cmd / Shift, so shortcuts use the same finger on every OS |
-| **NAV** | hold Space | arrows, Home/End/PgUp/PgDn, media keys, mods, Undo/Cut/Copy/Paste/Redo |
-| **MAC NAV** | Mac mode + hold Space | the NAV shortcuts in their macOS (Cmd) versions |
-| **SYM** | hold Enter | all coding symbols, brackets mirrored on the home row (open left / close right) |
-| **NUM** | hold Esc | F1–F12 on the left hand, numpad on the right hand (0 on the right thumb) |
-| **ADJ** | hold Space + Enter | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |
+| **NAV** | hold Sticky Shift (left inner thumb) | arrows, Home/End/PgUp/PgDn, Print Screen (Mac: ⌘⇧4 area screenshot), media keys, mods, Undo/Cut/Copy/Paste/Redo |
+| **MAC NAV** | Mac mode + hold Sticky Shift | the NAV shortcuts in their macOS (Cmd) versions |
+| **SYM** | hold Esc (left outer thumb) | all coding symbols, brackets mirrored on the home row (open left / close right) |
+| **NUM** | hold Tab | F1–F12, Esc and Delete on the left hand, numpad on the right hand (0 on the right thumb) |
+| **ADJ** | hold Esc + Sticky Shift | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |
 
 Other details:
-- **Thumbs**: Esc/NUM, Tab/AltGr, Space/NAV | Enter/SYM, Backspace, Delete.
-- **Home-row mods** only turn into a modifier when a key on the *other* hand (or a thumb) is pressed,
-  so fast same-hand rolls stay letters.
+- **Thumbs**: Esc/SYM, Tab/NUM, Sticky Shift/NAV | Space, AltGr, Backspace (Shift + Backspace = Delete).
+- **Enter** = press Sticky Shift + Space together (combo). Holding the Sticky Shift thumb for NAV and then pressing Space still types Space.
+- **Home-row mods**: during the first 280 ms, a mod key only turns into a modifier when a key on the
+  *other* hand (or a thumb) is pressed, so fast same-hand rolls stay letters. Held longer, it works
+  with any key, so same-hand shortcuts like Ctrl+A still work if you hold the mod a moment first.
 - **Custom shifted symbols** on the base layer: `/` → `\`, `,` → `;`, `.` → `:`, `?` → `!`, `'` → `"`.
-- **Polish letters**: hold the AltGr thumb (Tab) + letter (ą ć ę ł ń ó ś ż, ź = AltGr+X), add Shift for capitals.
+- **Polish letters**: hold AltGr (right middle thumb) + letter (ą ć ę ł ń ó ś ż, ź = AltGr+X), add Shift for capitals.
 - **OS mode** (Mac vs. Win/Linux) is not remembered after power-off; it always starts in Win/Linux.
 
 ### Required OS keyboard layout

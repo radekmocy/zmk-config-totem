@@ -9,10 +9,10 @@
  *   All three are the US layout + Polish letters on AltGr/Option, so every symbol
  *   on SYM/NUM is identical everywhere.
  *
- * ── Polish letters: hold the AltGr thumb (Tab) + letter, add Shift for capitals ──────
+ * ── Polish letters: hold AltGr (right middle thumb) + letter, add Shift for capitals ──────
  *     ą=A  ć=C  ę=E  ł=L  ń=N  ó=O  ś=S  ż=Z  ź=X
  *
- * ── OS mode (hold Space + Enter → ADJ) ──────────────────────────────────────────────
+ * ── OS mode (hold Esc + Sticky⇧ → ADJ) ────────────────────────────────────────────
  *   Win/Linux (default) : home row  GUI    Alt    Ctrl  ⇧Shift
  *   Mac                 : home row  ⌃Ctrl  ⎇Alt  ⌘Cmd  ⇧Shift  + NAV sends Cmd-shortcuts
  *   → "middle finger + C" copies on every OS, "NAV + middle + arrow" jumps a word, etc.
@@ -58,8 +58,11 @@
 
 / {
     behaviors {
-        /* Home-row mods: only become a modifier if the OTHER hand (or a thumb)
-           presses a key — so fast same-hand rolls stay letters. */
+        /* Home-row mods: a key pressed WITHIN the tapping term only triggers the
+           modifier if it is on the OTHER hand (or a thumb) — so fast same-hand
+           rolls stay letters. Once the mod key is held past the tapping term
+           (280 ms) it is a modifier for any key, so same-hand combos like
+           Ctrl+A still work if you hold the mod a moment first. */
         hml: homerow_mods_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -103,6 +106,35 @@
             bindings = <&kp FSLH>, <&kp BSLH>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+        /* SYM thumb: tap Esc, hold SYM. hold-preferred = any key pressed while it is
+           held means SYM (even if the thumb is released first); no quick-tap, so a
+           fast second press is always SYM, never a repeated Esc. */
+        lt_sym: layer_tap_sym {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            bindings = <&mo>, <&kp>;
+        };
+
+        /* NAV thumb: tap = sticky Shift (shifts the next key only), hold = layer */
+        lt_sk: layer_tap_sticky {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            bindings = <&mo>, <&sk>;
+        };
+
+        /* Backspace thumb: Shift (T or N) + Bspc sends Delete (Shift is not sent along) */
+        bspc_del: backspace_delete {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
         qmark_excl: question_exclamation {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -113,7 +145,7 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        /* Hold Space (NAV) + Enter (SYM) together -> ADJ (Bluetooth, OS mode, reset) */
+        /* Hold Esc (SYM) + Sticky Shift (NAV) together -> ADJ (Bluetooth, OS mode, reset) */
         adjust {
             if-layers = <NAV SYM>;
             then-layer = <ADJ>;
@@ -125,6 +157,17 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+        /* Sticky Shift + Space pressed together (within 50 ms) -> Enter.
+           Holding the Sticky Shift thumb (NAV) first and then pressing Space still types Space. */
+        combo_enter {
+            timeout-ms = <50>;
+            key-positions = <34 35>;
+            bindings = <&kp ENTER>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -133,20 +176,21 @@
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // BASE  Colemak-DH   (Win/Linux mods shown; Mac mode swaps ◆ and ⌃ — see MAC layer)
 // ◆ GUI (Win/Super)   ⎇ Alt   ⌃ Ctrl   ⇧ Shift      ⇧x = what the key sends with Shift
+// Enter = Sticky Shift + Space pressed together (combo)   Sticky ⇧ = tap to shift the next key only
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │  Q           │  W           │  F           │  P           │  B           │   │  J           │  L           │  U           │  Y           │  /   ⇧\      │
-//              │  A (GUI)     │  R (Alt)     │  S (Crtl)    │  T (Shift)   │  G           │   │  M           │  N (Shift)   │  E (Crtl)    │  I (Alt)     │  O (GUI)     │
+//              │  A (GUI)     │  R (Alt)     │  S (Crtl)    │  T (Shift)   │  G           │   │  M           │  N (Shift)   │  E (Crtl)    │  I (Alt)     │  O           │
 //┌─────────────┤  Z           │  X           │  C           │  D           │  V           │   │  K           │  H           │  ,   ⇧;      │  .   ⇧:      │  ?   ⇧!      ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '   ⇧"      │
-//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
-//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
+//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
                 &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &fslh_bslh
-                &hml LGUI A    &hml LALT R    &hml LCTRL S   &hml LSHFT T   &kp G              &kp M          &hmr RSHFT N   &hmr RCTRL E   &hmr LALT I    &hmr RGUI O
+                &hml LGUI A    &hml LALT R    &hml LCTRL S   &hml LSHFT T   &kp G              &kp M          &hmr RSHFT N   &hmr RCTRL E   &hmr LALT I    &kp O
   &caps_word    &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &comma_semi    &dot_colon     &qmark_excl    &kp SQT
-                                              &lt NUM ESC    &mt RALT TAB   &lt NAV SPACE      &lt SYM ENTER  &kp BSPC       &kp DEL
+                                              &lt_sym SYM ESC &lt NUM TAB    &lt_sk NAV LSHFT  &kp SPACE      &kp RALT       &bspc_del
             >;
         };
 
@@ -157,7 +201,7 @@
 // Cmd takes the Ctrl finger, so Copy/Paste/Save… use the SAME finger on every OS
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │              │              │              │              │              │   │              │              │              │              │              │
-//              │ A (^)        │ R (⎇)       │ S (⌘)        │ T (⇧)        │              │   │              │ N (⇧)        │ E (⌘)        │ I (⎇)       │ O (^)        │
+//              │ A (^)        │ R (⎇)       │ S (⌘)        │ T (⇧)        │              │   │              │ N (⇧)        │ E (⌘)        │ I (⎇)       │              │
 //┌─────────────┤              │              │              │              │              │   │              │              │              │              │              ├──────────────┐
 //│             └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘              │
 //└─────────────┘                             │              │              │              │   │              │              │              │                             └──────────────┘
@@ -166,7 +210,7 @@
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
                 &trans         &trans         &trans         &trans         &trans             &trans         &trans         &trans         &trans         &trans
-                &hml LCTRL A   &hml LALT R    &hml LGUI S    &hml LSHFT T   &trans             &trans         &hmr RSHFT N   &hmr RGUI E    &hmr LALT I    &hmr RCTRL O
+                &hml LCTRL A   &hml LALT R    &hml LGUI S    &hml LSHFT T   &trans             &trans         &hmr RSHFT N   &hmr RGUI E    &hmr LALT I    &trans
   &trans        &trans         &trans         &trans         &trans         &trans             &trans         &trans         &trans         &trans         &trans         &trans
                                               &trans         &trans         &trans             &trans         &trans         &trans
             >;
@@ -175,21 +219,21 @@
         nav_layer {
             display-name = "Nav";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// NAV (hold Space): arrows on right home row, mods + clipboard on left
+// NAV (hold Sticky Shift thumb): inverted-T arrows (U N E I), Home/End on L/Y, Enter on J, PgUp/PgDn on O/?, mods + clipboard on left
 // ⌃+arrow = jump word   ⇧+arrow = select   ⎇+Tab = switch app
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │ Prev         │ Vol-         │ Vol+         │ Next         │ Play         │   │              │              │              │              │              │
-//              │ GUI          │ Alt          │ Ctrl         │ Shift        │              │   │              │ ←            │ ↓            │ ↑            │ →            │
-//┌─────────────┤ Undo         │ Cut          │ Copy         │ Paste        │ Redo         │   │              │ Home         │ PgDn         │ PgUp         │ End          ├──────────────┐
+//              │ Prev         │ Vol-         │ Vol+         │ Next         │ Play         │   │ Enter        │ Home         │ ↑            │ End          │              │
+//              │ GUI          │ Alt          │ Ctrl         │ Shift        │ PrtSc        │   │              │ ←            │ ↓            │ →            │ PgUp         │
+//┌─────────────┤ Undo         │ Cut          │ Copy         │ Paste        │ Redo         │   │              │              │              │              │ PgDn         ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
-//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
-//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
+//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &kp C_PREV     &kp C_VOL_DN   &kp C_VOL_UP   &kp C_NEXT     &kp C_PP           &none          &none          &none          &none          &none
-                &kp LGUI       &kp LALT       &kp LCTRL      &kp LSHFT      &none              &none          &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT
-  &trans        &kp LC(Z)      &kp LC(X)      &kp LC(C)      &kp LC(V)      &kp LC(LS(Z))      &none          &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &kp C_PREV     &kp C_VOL_DN   &kp C_VOL_UP   &kp C_NEXT     &kp C_PP           &kp ENTER      &kp HOME       &kp UP         &kp END        &none
+                &kp LGUI       &kp LALT       &kp LCTRL      &kp LSHFT      &kp PSCRN          &none          &kp LEFT       &kp DOWN       &kp RIGHT      &kp PG_UP
+  &trans        &kp LC(Z)      &kp LC(X)      &kp LC(C)      &kp LC(V)      &kp LC(LS(Z))      &none          &none          &none          &none          &kp PG_DN      &trans
                                               &trans         &trans         &trans             &trans         &trans         &trans
             >;
         };
@@ -197,15 +241,15 @@
         sym_layer {
             display-name = "Sym";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// SYM (hold Enter): brackets mirrored on home row, open left / close right
+// SYM (hold Esc): brackets mirrored on home row, open left / close right
 // JS/Py/Java: =>  ->  ::  ||  &&  !=  ==  `${}`  #  @  _ all within one layer
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │  !           │  @           │  #           │  $           │  %           │   │  ^           │  &           │  *           │  _           │  ~           │
 //              │  <           │  {           │  (           │  [           │  =           │   │  -           │  ]           │  )           │  }           │  >           │
 //┌─────────────┤  +           │  |           │  "           │  '           │  `           │   │  :           │  ;           │  /           │  \           │  ?           ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
-//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
-//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
+//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
@@ -219,43 +263,43 @@
         num_layer {
             display-name = "Num";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// NUM (hold Esc): F-keys on left hand, numpad on right hand (0 on right thumb)
-// Shift+F6 / Alt+F4…: hold the mod on the RIGHT home row first, then hold Esc, then tap F-key
+// NUM (hold Tab): F-keys + Esc/Del on left hand, numpad on right hand (0 on right thumb)
+// Shift+F6 / Alt+F4…: hold the mod on the RIGHT home row first, then hold NUM, then tap F-key
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │              │  F7          │  F8          │  F9          │  F10         │   │  /           │  7           │  8           │  9           │  *           │
-//              │              │  F4          │  F5          │  F6          │  F11         │   │  +           │  4           │  5           │  6           │  -           │
-//┌─────────────┤              │  F1          │  F2          │  F3          │  F12         │   │  =           │  1           │  2           │  3           │  .           ├──────────────┐
-//│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  ,           │
-//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ 0            │ Bspc         │ Del          │                             └──────────────┘
-//                                            │ NUM          │ AltGr        │ NAV          │   │              │              │              │
+//              │  Esc         │  F7          │  F8          │  F9          │  F10         │   │  +           │  7           │  8           │  9           │  *           │
+//              │              │  F4          │  F5          │  F6          │  F11         │   │  -           │  4           │  5           │  6           │  /           │
+//┌─────────────┤              │  F1          │  F2          │  F3          │  F12         │   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
+//│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  .           │
+//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │  0           │ Bspc  ⇧Del   │                             └──────────────┘
+//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &none          &kp F7         &kp F8         &kp F9         &kp F10            &kp FSLH       &kp N7         &kp N8         &kp N9         &kp STAR
-                &none          &kp F4         &kp F5         &kp F6         &kp F11            &kp PLUS       &kp N4         &kp N5         &kp N6         &kp MINUS
-  &trans        &none          &kp F1         &kp F2         &kp F3         &kp F12            &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp DOT        &kp COMMA
-                                              &trans         &trans         &trans             &kp N0         &trans         &trans
+                &kp ESC        &kp F7         &kp F8         &kp F9         &kp F10            &kp PLUS       &kp N7         &kp N8         &kp N9         &kp STAR
+                &none          &kp F4         &kp F5         &kp F6         &kp F11            &kp MINUS      &kp N4         &kp N5         &kp N6         &kp FSLH
+  &trans        &none          &kp F1         &kp F2         &kp F3         &kp F12            &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp COMMA      &kp DOT
+                                              &trans         &trans         &trans             &trans         &kp N0         &trans
             >;
         };
 
         mac_nav_layer {
             display-name = "Mac Nav";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// MAC NAV (Mac mode + hold Space): same fingers do the same job as on Win/Linux
-// middle = Opt (jump word)   ring = Cmd (Cmd+Tab)   Home/End = Cmd+←/→ (line start/end)
+// MAC NAV (Mac mode + hold Sticky Shift thumb): same fingers do the same job as on Win/Linux
+// middle = Opt (jump word)   ring = Cmd (Cmd+Tab)   Home/End = Cmd+←/→ (line start/end)   ⌘⇧4 = screenshot of a selected area
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │              │              │              │              │              │   │              │              │              │              │              │
+//              │              │              │              │              │              │   │              │ ⌘ + ←        │              │ ⌘ + →        │ ⌘⇧4 snip     │
 //              │ Ctrl         │ Cmd          │ Opt          │ Shift        │              │   │              │              │              │              │              │
-//┌─────────────┤ ⌘Z           │ ⌘X           │ ⌘C           │ ⌘V           │ ⌘⇧Z          │   │              │ ⌘ + ←        │              │              │ ⌘ + →        ├──────────────┐
+//┌─────────────┤ ⌘Z           │ ⌘X           │ ⌘C           │ ⌘V           │ ⌘⇧Z          │   │              │              │              │              │              ├──────────────┐
 //│             └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘              │
 //└─────────────┘                             │              │              │              │   │              │              │              │                             └──────────────┘
 //                                            │              │              │              │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &trans         &trans         &trans         &trans         &trans             &trans         &trans         &trans         &trans         &trans
+                &trans         &trans         &trans         &trans         &trans             &trans         &kp LG(LEFT)   &trans         &kp LG(RIGHT)  &kp LG(LS(N4))
                 &kp LCTRL      &kp LGUI       &kp LALT       &kp LSHFT      &trans             &trans         &trans         &trans         &trans         &trans
-  &trans        &kp LG(Z)      &kp LG(X)      &kp LG(C)      &kp LG(V)      &kp LG(LS(Z))      &trans         &kp LG(LEFT)   &trans         &trans         &kp LG(RIGHT)  &trans
+  &trans        &kp LG(Z)      &kp LG(X)      &kp LG(C)      &kp LG(V)      &kp LG(LS(Z))      &trans         &trans         &trans         &trans         &trans         &trans
                                               &trans         &trans         &trans             &trans         &trans         &trans
             >;
         };
@@ -263,15 +307,15 @@
         adj_layer {
             display-name = "Adj";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// ADJ (hold Space + Enter): Bluetooth, USB/BLE, OS mode, bootloader
+// ADJ (hold Esc + Sticky Shift thumb): Bluetooth, USB/BLE, OS mode, bootloader
 // OS mode is not remembered after power-off — it always starts in Win/Linux
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │ BT 0         │ BT 1         │ BT 2         │ BT 3         │ BT 4         │   │              │              │              │              │              │
 //              │ BT Clear     │ USB          │ BLE          │ Studio ulck  │              │   │              │ Mac          │ Win/Linux    │              │              │
 //┌─────────────┤ Bootloader   │ Reset        │              │              │              │   │              │              │              │ Reset        │ Bootloader   ├──────────────┐
 //│             └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘              │
-//└─────────────┘                             │ Esc          │ TAB          │ Space        │   │ Enter        │ Bspc         │ Del          │                             └──────────────┘
-//                                            │ NUM          │ AltGr        │ NAV          │   │ SYM          │              │              │
+//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
+//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |

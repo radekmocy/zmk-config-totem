@@ -285,21 +285,20 @@
         num_layer {
             display-name = "Num";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// NUM (hold Tab): F-keys + Esc/Del on left hand, numpad on right hand (0 on right thumb)
-// Shift+F6 / Alt+F4…: hold the mod on the RIGHT home row first, then hold NUM, then tap F-key
+// NUM (hold Tab): numpad on right hand (0 on right thumb)
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │  Esc         │  F7          │  F8          │  F9          │  F10         │   │  +           │  7           │  8           │  9           │  *           │
-//              │              │  F4          │  F5          │  F6          │  F11         │   │  -           │  4           │  5           │  6           │  /           │
-//┌─────────────┤              │  F1          │  F2          │  F3          │  F12         │   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
+//              │              │              │              │              │              │   │  +           │  7           │  8           │  9           │  *           │
+//              │              │              │              │              │              │   │  -           │  4           │  5           │  6           │  /           │
+//┌─────────────┤              │              │              │              │              │   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  .           │
 //└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │  0           │ Bspc  ⇧Del   │                             └──────────────┘
 //                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &kp ESC        &kp F7         &kp F8         &kp F9         &kp F10            &kp PLUS       &kp N7         &kp N8         &kp N9         &kp STAR
-                &none          &kp F4         &kp F5         &kp F6         &kp F11            &kp MINUS      &kp N4         &kp N5         &kp N6         &kp FSLH
-  &trans        &none          &kp F1         &kp F2         &kp F3         &kp F12            &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp COMMA      &kp DOT
+                &none          &none          &none          &none          &none              &kp PLUS       &kp N7         &kp N8         &kp N9         &kp STAR
+                &none          &none          &none          &none          &none              &kp MINUS      &kp N4         &kp N5         &kp N6         &kp FSLH
+  &trans        &none          &none          &none          &none          &none              &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp COMMA      &kp DOT
                                               &trans         &trans         &trans             &trans         &kp N0         &trans
             >;
         };
@@ -307,21 +306,22 @@
         adj_layer {
             display-name = "Adj";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// ADJ (hold Esc + Tab): Bluetooth, USB/BLE, OS mode, bootloader
+// ADJ (hold Esc + Tab): Bluetooth, USB/BLE, OS mode, bootloader on left hand, F-keys on right hand
+// Shift+F6 / Alt+F4…: hold the mod on the LEFT home row first, then hold Esc + Tab, then tap F-key
 // OS mode is not remembered after power-off — it always starts in Win/Linux
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │ BT 0         │ BT 1         │ BT 2         │ BT 3         │ BT 4         │   │              │              │              │              │              │
-//              │ BT Clear     │ USB          │ BLE          │ Studio ulck  │              │   │              │ Mac          │ Win/Linux    │              │              │
-//┌─────────────┤ Bootloader   │ Reset        │              │              │              │   │              │              │              │ Reset        │ Bootloader   ├──────────────┐
-//│             └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘              │
+//              │ BT 0         │ BT 1         │ BT 2         │ BT 3         │ BT 4         │   │ F9           │ F10          │ F11          │ F12          │              │
+//              │ BT Clear     │ USB          │ BLE          │ Mac          │ Win/Linux    │   │ F5           │ F6           │ F7           │ F8           │              │
+//┌─────────────┤ Bootloader   │ Studio ulck  │              │              │              │   │ F1           │ F2           │ F3           │ F4           │ Bootloader   ├──────────────┐
+//│ Reset       └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘ Reset        │
 //└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
 //                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4       &none          &none          &none          &none          &none
-                &bt BT_CLR     &out OUT_USB   &out OUT_BLE   &studio_unlock &none              &none          &to MAC        &to BASE       &none          &none
-  &none         &bootloader    &sys_reset     &none          &none          &none              &none          &none          &none          &sys_reset     &bootloader    &none
+                &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4       &kp F9         &kp F10        &kp F11        &kp F12        &none
+                &bt BT_CLR     &out OUT_USB   &out OUT_BLE   &to MAC        &to BASE           &kp F5         &kp F6         &kp F7         &kp F8         &none
+  &sys_reset    &bootloader    &studio_unlock &none          &none          &none              &kp F1         &kp F2         &kp F3         &kp F4         &bootloader    &sys_reset
                                               &trans         &trans         &trans             &trans         &trans         &trans
             >;
         };

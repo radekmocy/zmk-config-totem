@@ -145,6 +145,86 @@
         };
     };
 
+    /* JS macros for the NUM layer — each key types a whole snippet.
+       ${} and console.log() leave the cursor between the brackets. */
+    macros {
+        m_optch: m_optch {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp QMARK &kp DOT>;
+        };
+        m_nullc: m_nullc {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp QMARK &kp QMARK>;
+        };
+        m_tmpl: m_tmpl {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp DLLR &kp LBRC &kp RBRC &kp LEFT>;
+        };
+        m_arrfn: m_arrfn {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LPAR &kp RPAR &kp SPACE &kp EQUAL &kp GT &kp SPACE>;
+        };
+        m_incr: m_incr {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp PLUS &kp PLUS>;
+        };
+        m_and: m_and {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp AMPS &kp AMPS>;
+        };
+        m_or: m_or {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp PIPE &kp PIPE>;
+        };
+        m_arrow: m_arrow {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp GT>;
+        };
+        m_steq: m_steq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EQUAL &kp EQUAL &kp EQUAL>;
+        };
+        m_stneq: m_stneq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EXCL &kp EQUAL &kp EQUAL>;
+        };
+        m_cmnt: m_cmnt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp FSLH &kp FSLH &kp SPACE>;
+        };
+        m_jsxcl: m_jsxcl {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LT &kp FSLH>;
+        };
+        m_spread: m_spread {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp DOT &kp DOT &kp DOT>;
+        };
+        m_pleq: m_pleq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp PLUS &kp EQUAL>;
+        };
+        m_clog: m_clog {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp C &kp O &kp N &kp S &kp O &kp L &kp E &kp DOT &kp L &kp O &kp G &kp LPAR &kp RPAR &kp LEFT>;
+        };
+    };
+
     conditional_layers {
         compatible = "zmk,conditional-layers";
         /* Hold Esc (SYM) + Tab (NUM) together -> ADJ (Bluetooth, OS mode, reset) */
@@ -285,20 +365,20 @@
         num_layer {
             display-name = "Num";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// NUM (hold Tab): numpad on right hand (0 on right thumb)
+// NUM (hold Tab): JS snippets on left hand, numpad on right hand (0 on right thumb)
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
-//              │              │              │              │              │              │   │  +           │  7           │  8           │  9           │  *           │
-//              │              │              │              │              │              │   │  -           │  4           │  5           │  6           │  /           │
-//┌─────────────┤              │              │              │              │              │   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
+//              │  ?.          │  ??          │  ${}         │  () =>       │  ++          │   │  +           │  7           │  8           │  9           │  *           │
+//              │  &&          │  ||          │  =>          │  ===         │  !==         │   │  -           │  4           │  5           │  6           │  /           │
+//┌─────────────┤  //          │  </          │  ...         │  +=          │ console.log()│   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  .           │
 //└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │  0           │ Bspc  ⇧Del   │                             └──────────────┘
 //                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
-                &none          &none          &none          &none          &none              &kp PLUS       &kp N7         &kp N8         &kp N9         &kp STAR
-                &none          &none          &none          &none          &none              &kp MINUS      &kp N4         &kp N5         &kp N6         &kp FSLH
-  &trans        &none          &none          &none          &none          &none              &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp COMMA      &kp DOT
+                &m_optch       &m_nullc       &m_tmpl        &m_arrfn       &m_incr            &kp PLUS       &kp N7         &kp N8         &kp N9         &kp STAR
+                &m_and         &m_or          &m_arrow       &m_steq        &m_stneq           &kp MINUS      &kp N4         &kp N5         &kp N6         &kp FSLH
+  &trans        &m_cmnt        &m_jsxcl       &m_spread      &m_pleq        &m_clog            &kp EQUAL      &kp N1         &kp N2         &kp N3         &kp COMMA      &kp DOT
                                               &trans         &trans         &trans             &trans         &kp N0         &trans
             >;
         };

@@ -108,10 +108,11 @@
             bindings = <&kp FSLH>, <&kp BSLH>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
-        /* SYM thumb: tap Esc, hold SYM. hold-preferred = any key pressed while it is
-           held means SYM (even if the thumb is released first); no quick-tap, so a
-           fast second press is always SYM, never a repeated Esc. */
-        lt_sym: layer_tap_sym {
+        /* Esc thumb (NUM) and Tab thumb (SYM): tap = key, hold = layer.
+           hold-preferred = any key pressed while it is held means the layer (even if
+           the thumb is released first); no quick-tap, so a fast second press is
+           always the layer, never a repeated Esc/Tab. */
+        lt_hp: layer_tap_hold_preferred {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "hold-preferred";
@@ -227,7 +228,7 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        /* Hold Esc (SYM) + Tab (NUM) together -> ADJ (Bluetooth, OS mode, reset) */
+        /* Hold Esc (NUM) + Tab (SYM) together -> ADJ (Bluetooth, OS mode, reset) */
         adjust {
             if-layers = <SYM NUM>;
             then-layer = <ADJ>;
@@ -262,15 +263,15 @@
 //              │  A (GUI)     │  R (Alt)     │  S (Ctrl)    │  T (Shift)   │  G           │   │  M           │  N (Shift)   │  E (Ctrl)    │  I (Alt)     │  O           │
 //┌─────────────┤  Z           │  X           │  C           │  D           │  V           │   │  K           │  H           │  ,   ⇧;      │  .   ⇧:      │  ?   ⇧!      ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '   ⇧"      │
-//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
-//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
+//└─────────────┘                             │ Esc          │ Bspc  ⇧Del   │ Sticky ⇧     │   │ Space        │ AltGr        │ TAB          │                             └──────────────┘
+//                                            │ NUM          │              │ NAV          │   │              │              │ SYM          │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
                 &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &fslh_bslh
                 &hml LGUI A    &hml LALT R    &hml LCTRL S   &hml LSHFT T   &kp G              &kp M          &hmr RSHFT N   &hmr RCTRL E   &hmr LALT I    &kp O
   &caps_word    &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &comma_semi    &dot_colon     &qmark_excl    &kp SQT
-                                              &lt_sym SYM ESC &lt NUM TAB    &lt_sk NAV LSHFT  &kp SPACE      &kp RALT       &bspc_del
+                                              &lt_hp NUM ESC &bspc_del      &lt_sk NAV LSHFT   &kp SPACE      &kp RALT       &lt_hp SYM TAB
             >;
         };
 
@@ -306,8 +307,8 @@
 //              │ GUI          │ Alt          │ Ctrl         │ Shift        │ PrtSc        │   │              │ ←            │ ↓            │ ↑            │ →            │
 //┌─────────────┤ Undo         │ Cut          │ Copy         │ Paste        │              │   │              │              │ PgDn         │ PgUp         │              ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
-//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
-//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
+//└─────────────┘                             │ Esc          │ Bspc  ⇧Del   │ Sticky ⇧     │   │ Space        │ AltGr        │ TAB          │                             └──────────────┘
+//                                            │ NUM          │              │ NAV          │   │              │              │ SYM          │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
@@ -343,15 +344,15 @@
         sym_layer {
             display-name = "Sym";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// SYM (hold Esc): brackets mirrored on home row, open left / close right
+// SYM (hold Tab): brackets mirrored on home row, open left / close right
 // JS/Py/Java: =>  ->  ::  ||  &&  !=  ==  `${}`  #  @  _ all within one layer
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │  !           │  @           │  #           │  $           │  %           │   │  ^           │  &           │  *           │  _           │  ~           │
 //              │  <           │  {           │  (           │  [           │  =           │   │  -           │  ]           │  )           │  }           │  >           │
 //┌─────────────┤  +           │  |           │  "           │  '           │  `           │   │  :           │  ;           │  /           │  \           │  ?           ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  '           │
-//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
-//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
+//└─────────────┘                             │ Esc          │ Bspc  ⇧Del   │ Sticky ⇧     │   │ Space        │ AltGr        │ TAB          │                             └──────────────┘
+//                                            │ NUM          │              │ NAV          │   │              │              │ SYM          │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
@@ -365,14 +366,14 @@
         num_layer {
             display-name = "Num";
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// NUM (hold Tab): JS snippets on left hand, numpad on right hand (0 on right thumb)
+// NUM (hold Esc): JS snippets on left hand, numpad on right hand (0 on right thumb)
 //              ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐   ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐
 //              │  ?.          │  ??          │  ${}         │  () =>       │  ++          │   │  +           │  7           │  8           │  9           │  *           │
 //              │  &&          │  ||          │  =>          │  ===         │  !==         │   │  -           │  4           │  5           │  6           │  /           │
 //┌─────────────┤  //          │  </          │  ...         │  +=          │ console.log()│   │  =           │  1           │  2           │  3           │  ,           ├──────────────┐
 //│CAPSW        └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘  .           │
-//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │  0           │ Bspc  ⇧Del   │                             └──────────────┘
-//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
+//└─────────────┘                             │ Esc          │ Bspc  ⇧Del   │ Sticky ⇧     │   │ Space        │  0           │ TAB          │                             └──────────────┘
+//                                            │ NUM          │              │ NAV          │   │              │              │ SYM          │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |
@@ -394,8 +395,8 @@
 //              │ BT Clear     │ USB          │ BLE          │ Mac          │ Win/Linux    │   │ F5           │ F6           │ F7           │ F8           │              │
 //┌─────────────┤ Bootloader   │ Studio ulck  │              │              │              │   │ F1           │ F2           │ F3           │ F4           │ Bootloader   ├──────────────┐
 //│ Reset       └──────────────┴──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┘ Reset        │
-//└─────────────┘                             │ Esc          │ TAB          │ Sticky ⇧     │   │ Space        │ AltGr        │ Bspc  ⇧Del   │                             └──────────────┘
-//                                            │ SYM          │ NUM          │ NAV          │   │              │              │              │
+//└─────────────┘                             │ Esc          │ Bspc  ⇧Del   │ Sticky ⇧     │   │ Space        │ AltGr        │ TAB          │                             └──────────────┘
+//                                            │ NUM          │              │ NAV          │   │              │              │ SYM          │
 //                                            └──────────────┴──────────────┴──────────────┘   └──────────────┴──────────────┴──────────────┘
             bindings = <
 //|             |              |              |              |              |              |   |              |              |              |              |              |              |

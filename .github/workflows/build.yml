@@ -1,5 +1,11 @@
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths: ["config/**", "build.yaml", ".github/workflows/**"]
+  pull_request:
+    paths: ["config/**", "build.yaml", ".github/workflows/**"]
+  workflow_dispatch:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    # Keep this SHA in sync with the zmk revision in config/west.yml
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@4de313367288aad5aeaa1243890e40dc813f7008

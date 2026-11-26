@@ -45,8 +45,8 @@ The upstream keymap (Colemak + NAV/SYM/ADJUST + TVPaint layers) was replaced wit
 |---|---|---|
 | **BASE** | default | Colemak-DH with home-row mods (GUI / Alt / Ctrl / Shift; O is a plain letter), Caps Word on the outer key |
 | **MAC** | ADJ → *Mac* | overlay on BASE: home-row mods become Ctrl / Opt / Cmd / Shift, so shortcuts use the same finger on every OS |
-| **NAV** | hold Sticky Shift (left inner thumb) | arrows, Home/End/PgUp/PgDn, Print Screen (Mac: ⌘⇧4 area screenshot), media keys, mods, Undo/Cut/Copy/Paste/Redo |
-| **MAC NAV** | Mac mode + hold Sticky Shift | the NAV shortcuts in their macOS (Cmd) versions |
+| **NAV** | hold Sticky Shift (left inner thumb) | vim-style arrows (h j k l positions on N E I O), Home/End/PgUp/PgDn, Print Screen on G, media keys, mods, Undo/Cut/Copy/Paste/Redo |
+| **MAC NAV** | Mac mode + hold Sticky Shift | the NAV shortcuts in their macOS versions: mods Ctrl/Opt/Cmd/Shift (same order as the Mac home-row mods), ⌘Z/X/C/V, Home/End = ⌘←/→, ⌘⇧4 area screenshot on G |
 | **SYM** | hold Esc (left outer thumb) | all coding symbols, brackets mirrored on the home row (open left / close right) |
 | **NUM** | hold Tab | F1–F12, Esc and Delete on the left hand, numpad on the right hand (0 on the right thumb) |
 | **ADJ** | hold Esc + Tab | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |

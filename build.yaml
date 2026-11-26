@@ -5,4 +5,6 @@ include:
     cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: xiao_ble//zmk
     shield: totem_right
-# there is no settingsreset (needed) for the XIAO
+  # Flash to a half to wipe its stored settings (BT bonds, saved BT name, Studio keymap)
+  - board: xiao_ble//zmk
+    shield: settings_reset

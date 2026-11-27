@@ -45,15 +45,15 @@ The upstream keymap (Colemak + NAV/SYM/ADJUST + TVPaint layers) was replaced wit
 |---|---|---|
 | **BASE** | default | Colemak-DH with home-row mods (GUI / Alt / Ctrl / Shift; O is a plain letter), Caps Word on the outer key |
 | **MAC** | ADJ → *Mac* | overlay on BASE: home-row mods become Ctrl / Opt / Cmd / Shift, so shortcuts use the same finger on every OS |
-| **NAV** | hold Sticky Shift (left inner thumb) | vim-style arrows (h j k l positions on N E I O), Home/End/PgUp/PgDn, Print Screen on G, media keys, mods, Undo/Cut/Copy/Paste/Redo |
-| **MAC NAV** | Mac mode + hold Sticky Shift | the NAV shortcuts in their macOS versions: mods Ctrl/Opt/Cmd/Shift (same order as the Mac home-row mods), ⌘Z/X/C/V, Home/End = ⌘←/→, ⌘⇧4 area screenshot on G |
-| **SYM** | hold Esc (left outer thumb) | all coding symbols, brackets mirrored on the home row (open left / close right) |
-| **NUM** | hold Tab | F1–F12, Esc and Delete on the left hand, numpad on the right hand (0 on the right thumb) |
+| **NAV** | hold Backspace (left inner thumb) | vim-style arrows (h j k l positions on N E I O), Home/End/PgUp/PgDn, Backspace on M, Delete on Y, Print Screen on G, media keys, mods, Undo/Cut/Copy/Paste/Redo |
+| **MAC NAV** | Mac mode + hold Backspace | the NAV shortcuts in their macOS versions: mods Ctrl/Opt/Cmd/Shift (same order as the Mac home-row mods), ⌘Z/X/C/V, Home/End = ⌘←/→, ⌘⇧4 area screenshot on G |
+| **SYM** | hold Tab (left middle thumb) | all coding symbols, brackets mirrored on the home row (open left / close right) |
+| **NUM** | hold Esc (left outer thumb) | JS snippets on the left hand, numpad on the right hand (0 on the right middle thumb) |
 | **ADJ** | hold Esc + Tab | Bluetooth profiles 0–4 and clear, USB/BLE output, Studio unlock, Mac / Win-Linux mode, reset, bootloader |
 
 Other details:
-- **Thumbs**: Esc/SYM, Tab/NUM, Sticky Shift/NAV | Space, AltGr, Backspace (Shift + Backspace = Delete).
-- **Enter** = press Sticky Shift + Space together (combo). Holding the Sticky Shift thumb for NAV and then pressing Space still types Space.
+- **Thumbs**: Esc/NUM, Tab/SYM, Backspace/NAV | Space, AltGr, Enter (Shift + Backspace = Delete; holding the thumb is always NAV, so repeat Backspace / Delete from NAV: M / Y).
+- **Capitals**: hold T (left Shift) for right-hand letters, N (right Shift) for left-hand letters, or tap Caps Word.
 - **Home-row mods**: during the first 280 ms, a mod key only turns into a modifier when a key on the
   *other* hand (or a thumb) is pressed, so fast same-hand rolls stay letters. Held longer, it works
   with any key, so same-hand shortcuts like Ctrl+A still work if you hold the mod a moment first.
